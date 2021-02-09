@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ako užívať lieky obdeň</title>
+    <style>
+        html, body, h1 {
+            margin: 0; padding: 0;
+        }
+        html {
+            font-size: 62%;
+        }
+        body {
+            width: 100%;
+            height: 100vh;
+        }
+        #container {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .week {
+            font-size: 4rem;
+        }
+    </style>
+    <script>
+
+        // This script is released to the public domain and may be used, modified and
+        // distributed without restrictions. Attribution not necessary but appreciated.
+        // Source: https://weeknumber.net/how-to/javascript
+
+        // Returns the ISO week of the date.
+        Date.prototype.getWeek = function() {
+            var date = new Date(this.getTime());
+            date.setHours(0, 0, 0, 0);
+            // Thursday in current week decides the year.
+            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+            // January 4 is always in week 1.
+            var week1 = new Date(date.getFullYear(), 0, 4);
+            // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+            return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                                    - 3 + (week1.getDay() + 6) % 7) / 7);
+        }
+
+        // Returns the four-digit year corresponding to the ISO week of the date.
+        Date.prototype.getWeekYear = function() {
+            var date = new Date(this.getTime());
+            date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+            return date.getFullYear();
+        }
+
+        function detectCorrentWeeek() {
+            var date = new Date();
+            console.log("Week in year: " + date.getWeek());
+            if ( date.getWeek() % 2 == 0 ) {
+                document.getElementById("week-even").style.visibility = "show";
+                document.getElementById("week-odd").style.visibility = "hidden";
+            } else {
+                document.getElementById("week-even").style.visibility = "hidden";
+                document.getElementById("week-odd").style.visibility = "show";
+            }
+        }
+
+    </script>
+</head>
+<body onload="detectCorrentWeeek();">
+    <div id="container">
+        <div class="week" id="week-odd">Po, St, Pi, Ne</div>
+        <div class="week" id="week-even">Ut, Št, So</div>
+    </div>
+</body>
+</html>
